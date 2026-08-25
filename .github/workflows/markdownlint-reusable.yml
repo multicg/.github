@@ -9,6 +9,11 @@ name: markdownlint (reusable)
 # 규칙 정의는 이 파일 안에 있다 — 호출하는 저장소는 자체 .markdownlint.yml을
 # 둘 필요가 없다(원본이 여러 곳에 흩어지는 걸 막기 위함). 규칙을 바꾸려면
 # 이 파일만 고치면 모든 호출 저장소에 다음 실행부터 반영된다.
+#
+# PR의 변경 파일만 검사한다(전체 리포 스캔이 아님) — 오래된 저장소에
+# 처음 이 CI를 붙이면 이번 변경과 무관한 기존 위반이 잔뜩 걸려 PR을
+# 막는 문제가 있어(2026-08-25 sensus-hub #94 실측), diff 기준으로
+# 범위를 좁혔다. 새로 건드리는 파일부터 점진적으로 깨끗해진다.
 
 on:
   workflow_call: {}
@@ -18,8 +23,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 변경된 마크다운 파일 목록 추출
+        id: changed
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch origin "${{ github.base_ref }}" --depth=1
+            FILES=$(git diff --name-only --diff-filter=ACMR "origin/${{ github.base_ref }}...HEAD" -- '*.md' | tr '\n' ' ')
+          else
+            FILES=$(git diff --name-only --diff-filter=ACMR HEAD~1 HEAD -- '*.md' 2>/dev/null | tr '\n' ' ' || true)
+          fi
+          echo "files=$FILES" >> "$GITHUB_OUTPUT"
+          echo "변경된 .md 파일: ${FILES:-없음}"
 
       - name: 공용 markdownlint 규칙 작성
+        if: steps.changed.outputs.files != ''
         run: |
           cat > .markdownlint-shared.yml <<'EOF'
           # onandon-docs .markdownlint.yml과 동일한 규칙(한국어 문서 프로젝트 기준)
@@ -32,5 +52,6 @@ jobs:
           MD060: false
           EOF
 
-      - name: markdownlint-cli2 실행
-        run: npx --yes markdownlint-cli2 --config .markdownlint-shared.yml "**/*.md"
+      - name: markdownlint-cli2 실행 (변경 파일만)
+        if: steps.changed.outputs.files != ''
+        run: npx --yes markdownlint-cli2 --config .markdownlint-shared.yml ${{ steps.changed.outputs.files }}
