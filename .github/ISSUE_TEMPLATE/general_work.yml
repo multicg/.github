@@ -1,0 +1,137 @@
+name: General Work
+description: 일반 작업 이슈 — 제목 형식과 구조를 지켜 작성한다.
+title: "[Type] primary-component: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        제목 형식: `[Type] primary-component: 검증 가능한 결과`
+        (예: `[Bug] deployment: NPM proxy_read_timeout이 내부 허용시간보다 짧아 502 발생`)
+
+        라벨은 이 계정 공용 정책 저장소(`multicg/.github`)의 `labels.yml`
+        정의를 각 저장소에 미리 생성해둔 것을 그대로 붙인다 — 이슈
+        본문에서 새로 만들지 않는다.
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      description: 제목 접두어와 짝을 이루는 값 — 선택한 값에 맞는 `type:*` 라벨을 함께 붙인다.
+      options:
+        - bug
+        - feature
+        - change
+        - security
+        - quality
+        - refactor
+        - research
+        - docs
+        - ops
+        - governance
+    validations:
+      required: true
+  - type: input
+    id: primary_component
+    attributes:
+      label: Primary Component
+      description: "comp:* 라벨 중 하나를 적는다(예: agent, api, ci, core, docs, security, skill 등 — 25종)"
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: 목적
+      description: 작업이 끝난 뒤 무엇이 달라져야 하는가. "개선한다"가 아니라 검증 가능한 결과로 쓴다.
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: 배경
+      description: 선택. 현재 상태와 문제, 이 작업이 필요해진 계기. 관련 실측·로그가 있으면 인용한다.
+  - type: textarea
+    id: work_items
+    attributes:
+      label: 작업 내용
+      description: 체크리스트로. 각 항목은 완료 여부를 판정할 수 있는 단위로 쪼갠다.
+      value: |
+        - [ ]
+        - [ ]
+  - type: textarea
+    id: scope
+    attributes:
+      label: 범위
+      description: 포함/제외를 나눠 적는다. 이 이슈가 다루지 않는 것은 "없음" 또는 후속 이슈로 넘긴다고 적는다.
+      value: |
+        ### 포함
+
+        -
+
+        ### 제외
+
+        -
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: 완료 조건
+      description: Pass/Fail로 판정 가능한 조건. 사람의 인상이 아니라 관찰 가능한 상태로 쓴다.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: 검증 방법
+      description: 완료 조건을 무엇으로 확인하는가. 실행할 명령, 확인할 출력, 기대 결과.
+  - type: textarea
+    id: related
+    attributes:
+      label: 관련 항목
+      description: 선택. Parent / Depends-on / Blocks / Related 이슈·PR.
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options: ["p0", "p1", "p2", "p3", "p4"]
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options: ["critical", "major", "moderate", "minor", "informational"]
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Risk level
+      options: ["critical", "high", "medium", "low"]
+    validations:
+      required: true
+  - type: textarea
+    id: issue_contract
+    attributes:
+      label: Issue Contract (JSON)
+      description: >-
+        위에서 고른 값(Type/Primary Component/Priority/Severity/Risk)과
+        완료 조건을 그대로 옮겨 채운다. 사람이 읽는 위 내용과 어긋나면 안
+        된다 — 자동 검증 CI는 없으므로 작성자가 직접 일치시킨다.
+      render: json
+      value: |
+        {
+          "schema_version": "1.0.0",
+          "title": "[Type] primary-component: 검증 가능한 결과",
+          "classification": {
+            "type": "",
+            "primary_component": "",
+            "components": []
+          },
+          "planning": {
+            "priority": "",
+            "severity": "",
+            "risk_level": ""
+          },
+          "acceptance_criteria": []
+        }
+    validations:
+      required: true

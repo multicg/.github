@@ -1,0 +1,36 @@
+name: markdownlint (reusable)
+
+# 다른 저장소에서 아래처럼 호출한다:
+#
+#   jobs:
+#     markdownlint:
+#       uses: multicg/.github/.github/workflows/markdownlint-reusable.yml@main
+#
+# 규칙 정의는 이 파일 안에 있다 — 호출하는 저장소는 자체 .markdownlint.yml을
+# 둘 필요가 없다(원본이 여러 곳에 흩어지는 걸 막기 위함). 규칙을 바꾸려면
+# 이 파일만 고치면 모든 호출 저장소에 다음 실행부터 반영된다.
+
+on:
+  workflow_call: {}
+
+jobs:
+  markdownlint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 공용 markdownlint 규칙 작성
+        run: |
+          cat > .markdownlint-shared.yml <<'EOF'
+          # onandon-docs .markdownlint.yml과 동일한 규칙(한국어 문서 프로젝트 기준)
+          default: true
+          MD013: false
+          MD033: false
+          MD041: false
+          MD024:
+            siblings_only: true
+          MD060: false
+          EOF
+
+      - name: markdownlint-cli2 실행
+        run: npx --yes markdownlint-cli2 --config .markdownlint-shared.yml "**/*.md"
