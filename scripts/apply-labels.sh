@@ -16,6 +16,13 @@ LABELS_FILE="$SCRIPT_DIR/../labels.yml"
 command -v gh >/dev/null 2>&1 || { echo "오류: gh(GitHub CLI)가 설치돼 있지 않음" >&2; exit 1; }
 [ -f "$LABELS_FILE" ] || { echo "오류: labels.yml을 찾을 수 없음 - $LABELS_FILE" >&2; exit 1; }
 
+# 존재 여부는 루프 시작 전에 한 번만 조회해 메모리에 캐시한다. 매
+# 라벨마다 방금 gh label edit(쓰기) 직후 gh label list(읽기)를 다시
+# 호출하면 GitHub API의 write-after-read replica lag에 걸려 방금
+# 처리된 것과 무관한 다른 라벨까지 "없다"고 오판하는 일이 실측됨
+# (같은 실행 안에서 실패 지점이 매번 달라지는 패턴으로 재현됨).
+EXISTING_LABELS=$(gh label list --repo "$TARGET_REPO" --limit 300 --json name -q '.[].name')
+
 python3 - "$LABELS_FILE" <<'PYEOF' | while IFS=$'\t' read -r name color description; do
 import re
 import sys
@@ -34,7 +41,7 @@ entries = re.findall(
 for name, color, description in entries:
     print(f"{name}\t{color}\t{description}")
 PYEOF
-  if gh label list --repo "$TARGET_REPO" --limit 300 --json name -q '.[].name' 2>/dev/null | grep -qxF "$name"; then
+  if grep -qxF "$name" <<<"$EXISTING_LABELS"; then
     gh label edit "$name" --repo "$TARGET_REPO" --color "$color" --description "$description" >/dev/null
     echo "갱신: $name"
   else
