@@ -34,7 +34,7 @@ entries = re.findall(
 for name, color, description in entries:
     print(f"{name}\t{color}\t{description}")
 PYEOF
-  if gh label list --repo "$TARGET_REPO" --json name -q '.[].name' 2>/dev/null | grep -qxF "$name"; then
+  if gh label list --repo "$TARGET_REPO" --limit 300 --json name -q '.[].name' 2>/dev/null | grep -qxF "$name"; then
     gh label edit "$name" --repo "$TARGET_REPO" --color "$color" --description "$description" >/dev/null
     echo "갱신: $name"
   else
