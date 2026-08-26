@@ -13,11 +13,14 @@ GitLab·조직 전용 요소(taxonomy 자동검증 CI 등)는 뺐다 — 상세�
 
 | 항목 | 위치 | 적용 방식 |
 |---|---|---|
-| 이슈 템플릿 | `.github/ISSUE_TEMPLATE/general_work.yml` | 자동(개별 저장소에 템플릿 없으면 이걸 씀) |
-| PR 템플릿 | `.github/PULL_REQUEST_TEMPLATE.md` + `.github/PULL_REQUEST_TEMPLATE/*.md` | 자동 |
+| 이슈 템플릿 | `.github/ISSUE_TEMPLATE/general_work.yml` | **수동** — GitHub은 YAML Issue Forms를 계정 레벨로 자동 상속하지 않는다(2026-08-26 GraphQL `issueTemplates` 실측 확인, compass-vault 등에서 `[]` 반환). 이 저장소를 템플릿 저장소(`is_template: true`)로 켜두었으니 `gh repo create --template multicg/.github <name>`로 새 저장소를 만들면 파일이 복사된다. 이미 있는 저장소에는 직접 복사해야 한다. |
+| PR 템플릿 | `.github/PULL_REQUEST_TEMPLATE.md` + `.github/PULL_REQUEST_TEMPLATE/*.md` | 자동(단일/레거시 파일 형식이라 계정 레벨 상속이 정상 동작 — GraphQL `pullRequestTemplates`로 확인) |
 | 라벨 taxonomy(49종) | `labels.yml` | 수동 — 새 저장소마다 `scripts/apply-labels.sh <owner/repo>` 1회 실행 |
 | markdownlint CI | `.github/workflows/markdownlint-reusable.yml` | 재사용 워크플로 — 각 저장소가 `uses:`로 호출 |
-| 브랜치·이슈 정책 문서 | `CONTRIBUTING.md` | 참고 문서 |
+| 브랜치·이슈 정책 문서 | `CONTRIBUTING.md` | 참고 문서(자동 상속됨) |
+
+> 상세 조사 근거: compass-vault
+> `research/tech/github-account-level-issue-template-inheritance.md`
 
 ## 원본
 
