@@ -1,11 +1,15 @@
 name: General Work
-description: 일반 작업 이슈 — 제목 형식과 구조를 지켜 작성한다.
+description: 유형 미정 초안용 일반 작업 이슈 — 유형이 정해졌으면 해당 유형 폼(Bug/Feature/…)을 쓴다.
 title: "[Type] primary-component: "
 labels: []
 body:
   - type: markdown
     attributes:
       value: |
+        **유형이 이미 정해졌으면 이 폼 대신 그 유형의 폼**(Bug/Feature/
+        Change/Security/Quality/Refactor/Research/Docs/Ops/Governance)을
+        쓴다 — 이 폼은 유형 미정 초안용이다.
+
         제목 형식: `[Type] primary-component: 검증 가능한 결과`
         (예: `[Bug] deployment: NPM proxy_read_timeout이 내부 허용시간보다 짧아 502 발생`)
 

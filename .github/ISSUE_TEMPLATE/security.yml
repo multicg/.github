@@ -1,0 +1,129 @@
+name: Security
+description: "보안 취약점·보안 강화 — 민감 정보는 공개 이슈에 쓰지 않는다"
+title: "[Security] primary-component: "
+labels: ["type:security"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        제목 형식: `[Security] primary-component: 검증 가능한 결과`
+
+        각 필드 안내의 **반려기준**에 걸리면 반려된다. 라벨은 계정 공용
+        정책 저장소(`multicg/.github`) `labels.yml` 정의를 그대로 쓴다 —
+        `type:security` 라벨이 이 폼에서 자동으로 붙는다.
+        유형이 아직 정해지지 않은 초안만 General Work 폼을 쓴다.
+  - type: input
+    id: primary_component
+    attributes:
+      label: "Primary Component"
+      description: "comp:* 라벨 중 하나를 적는다(예: agent, api, ci, core, docs, security, skill 등 — 25종)"
+    validations:
+      required: true
+  - type: textarea
+    id: security_impact
+    attributes:
+      label: "보안 영향"
+      description: "기밀성·무결성·가용성 중 무엇이 영향 받는지 명시 + 심각도 근거. 반려기준: \"보안 문제 있음\"."
+    validations:
+      required: true
+  - type: textarea
+    id: affected_surface
+    attributes:
+      label: "영향 표면"
+      description: "구체적 컴포넌트·엔드포인트·자격증명 종류. 근거 없는 \"전체 시스템\" 불가. 반려기준: \"전체 시스템\"."
+    validations:
+      required: true
+  - type: textarea
+    id: remediation_criteria
+    attributes:
+      label: "조치 기준"
+      description: "수정이 달성해야 할 검증 가능한 최종 상태. 반려기준: \"패치한다\" / \"패치 적용\"만."
+    validations:
+      required: true
+  - type: textarea
+    id: disclosure_handling
+    attributes:
+      label: "공개 처리"
+      description: "공개/비공개 상태. 비공개면 채널과 엠바고 조건. 민감 정보는 공개 이슈에 쓰지 않는다. 반려기준: 채널·조건 없는 \"비공개로 처리\"."
+    validations:
+      required: true
+  - type: textarea
+    id: minimal_repro
+    attributes:
+      label: "최소 재현 자료"
+      description: "선택. 민감정보를 제거한 최소 예제, 실패 테스트, 로그 또는 화면."
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "완료 조건"
+      description: "Pass/Fail로 판정 가능한 조건. 반려기준: \"잘 되게\"·\"안정적으로\" 같은 주관 표현만 있는 것."
+      value: |
+        - [ ] 기존 문제를 재현할 수 있다.
+        - [ ] 수정 후 동일 절차에서 문제가 재현되지 않는다.
+        - [ ] 회귀 테스트가 추가되거나 보완된다.
+    validations:
+      required: true
+  - type: textarea
+    id: related
+    attributes:
+      label: "관련 항목"
+      description: "선택. Parent / Depends-on / Blocks / Related 이슈·PR (#번호 또는 owner/repo#번호)."
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority"
+      options:
+        - p0
+        - p1
+        - p2
+        - p3
+        - p4
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "Severity"
+      options:
+        - critical
+        - major
+        - moderate
+        - minor
+        - informational
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: "Risk level"
+      options:
+        - critical
+        - high
+        - medium
+        - low
+    validations:
+      required: true
+  - type: textarea
+    id: issue_contract
+    attributes:
+      label: "Issue Contract (JSON)"
+      description: "위에서 고른 값(Primary Component/Priority/Severity/Risk)과 완료 조건을 그대로 옮겨 채운다. 사람이 읽는 위 내용과 어긋나면 안 된다 — 자동 검증 CI는 없으므로 작성자가 직접 일치시킨다."
+      render: "json"
+      value: |
+        {
+          "schema_version": "1.0.0",
+          "title": "[Security] primary-component: 검증 가능한 결과",
+          "classification": {
+            "type": "security",
+            "primary_component": "",
+            "components": []
+          },
+          "planning": {
+            "priority": "",
+            "severity": "",
+            "risk_level": ""
+          },
+          "acceptance_criteria": []
+        }
+    validations:
+      required: true

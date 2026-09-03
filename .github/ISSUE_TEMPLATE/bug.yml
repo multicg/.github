@@ -1,0 +1,140 @@
+name: Bug
+description: "결함 신고 — 재현 가능한 잘못된 동작"
+title: "[Bug] primary-component: "
+labels: ["type:bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        제목 형식: `[Bug] primary-component: 검증 가능한 결과`
+
+        각 필드 안내의 **반려기준**에 걸리면 반려된다. 라벨은 계정 공용
+        정책 저장소(`multicg/.github`) `labels.yml` 정의를 그대로 쓴다 —
+        `type:bug` 라벨이 이 폼에서 자동으로 붙는다.
+        유형이 아직 정해지지 않은 초안만 General Work 폼을 쓴다.
+  - type: input
+    id: primary_component
+    attributes:
+      label: "Primary Component"
+      description: "comp:* 라벨 중 하나를 적는다(예: agent, api, ci, core, docs, security, skill 등 — 25종)"
+    validations:
+      required: true
+  - type: textarea
+    id: problem_summary
+    attributes:
+      label: "문제 요약"
+      description: "무엇이 잘못됐는지를 관찰된 동작에 묶인 반증 가능한 주장 하나로. 영향 받는 컴포넌트·관찰된 동작·기대와의 차이 포함. 반려기준: \"문제가 있다\"류 서술 / 제목을 그대로 되풀이한 요약."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction_steps
+    attributes:
+      label: "재현 절차"
+      description: "독립된 독자가 추가 질문 없이 재현할 수 있게 — 사전 조건 → 순서 있는 단계 → 사용한 구체적 입력. 반려기준: 순서 없는 한 문장 서술 / 단계 없이 \"재현 가능\"만 주장."
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: actual_result
+    attributes:
+      label: "실제 결과"
+      description: "시스템이 실제로 무엇을 했는지 — 관찰된 출력·상태와 관찰 시점, 오류 원문·상태코드·값 그대로. 반려기준: \"예상과 다르게 동작한다\" / 기대 결과를 부정형으로 베낀 것."
+    validations:
+      required: true
+  - type: textarea
+    id: expected_result
+    attributes:
+      label: "기대 결과"
+      description: "계약·이전 릴리스·문서가 정한 올바른 동작과 그 근거(어디에 그렇게 돼 있나). 반려기준: \"정상적으로 동작해야 한다\"."
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: "발생 환경"
+      description: "재현 또는 환경 원인 배제에 필요한 실행 맥락 — 플랫폼/런타임·버전 식별자(패키지·OS·커밋) 1개 이상·관련 설정, 환경 종속 여부. 반려기준: 버전 식별자 없는 \"로컬 환경\"."
+    validations:
+      required: true
+  - type: textarea
+    id: minimal_repro
+    attributes:
+      label: "최소 재현 자료"
+      description: "선택. 민감정보를 제거한 최소 예제, 실패 테스트, 로그 또는 화면."
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "완료 조건"
+      description: "Pass/Fail로 판정 가능한 조건. 반려기준: \"잘 되게\"·\"안정적으로\" 같은 주관 표현만 있는 것."
+      value: |
+        - [ ] 기존 문제를 재현할 수 있다.
+        - [ ] 수정 후 동일 절차에서 문제가 재현되지 않는다.
+        - [ ] 회귀 테스트가 추가되거나 보완된다.
+    validations:
+      required: true
+  - type: textarea
+    id: related
+    attributes:
+      label: "관련 항목"
+      description: "선택. Parent / Depends-on / Blocks / Related 이슈·PR (#번호 또는 owner/repo#번호)."
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority"
+      options:
+        - p0
+        - p1
+        - p2
+        - p3
+        - p4
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "Severity"
+      options:
+        - critical
+        - major
+        - moderate
+        - minor
+        - informational
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: "Risk level"
+      options:
+        - critical
+        - high
+        - medium
+        - low
+    validations:
+      required: true
+  - type: textarea
+    id: issue_contract
+    attributes:
+      label: "Issue Contract (JSON)"
+      description: "위에서 고른 값(Primary Component/Priority/Severity/Risk)과 완료 조건을 그대로 옮겨 채운다. 사람이 읽는 위 내용과 어긋나면 안 된다 — 자동 검증 CI는 없으므로 작성자가 직접 일치시킨다."
+      render: "json"
+      value: |
+        {
+          "schema_version": "1.0.0",
+          "title": "[Bug] primary-component: 검증 가능한 결과",
+          "classification": {
+            "type": "bug",
+            "primary_component": "",
+            "components": []
+          },
+          "planning": {
+            "priority": "",
+            "severity": "",
+            "risk_level": ""
+          },
+          "acceptance_criteria": []
+        }
+    validations:
+      required: true
