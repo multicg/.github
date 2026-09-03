@@ -12,10 +12,15 @@ CI, `doonemo/workspace` include)는 뺐다.
 - **Type**(10종): `bug` `feature` `change` `security` `quality`
   `refactor` `research` `docs` `ops` `governance`
 - **Component**(25종): `labels.yml`의 `comp:*` 참고
-- 본문은 이슈 템플릿(`General Work`) 구조(목적 → 배경 → 작업 내용 →
-  범위 → 완료 조건 → 검증 방법 → 관련 항목 → Issue Contract JSON)를
-  따른다. **API/CLI로 이슈를 만들 때는 템플릿이 자동 적용되지
-  않으므로 이 구조를 직접 따라 작성한다.**
+- 본문은 **유형별 이슈 템플릿**(`.github/ISSUE_TEMPLATE/{bug,feature,
+  change,security,quality,refactor,research,docs,ops,governance}.yml` —
+  유형마다 필수 절과 반려기준이 다르다)을 쓴다. 유형 미정 초안만
+  `General Work` 폼(목적 → 배경 → 작업 내용 → 범위 → 완료 조건 →
+  검증 방법 → 관련 항목 → Issue Contract JSON)을 쓴다. **API/CLI로
+  이슈를 만들 때는 템플릿이 자동 적용되지 않으므로 해당 유형의 폼
+  구조를 직접 따라 작성한다.**
+  (원천: `doonemo/workspace` 유형별 템플릿 10종, workspace@fc3189f
+  — 2026-09-03부터 적용)
 - 라벨은 `labels.yml`에 49개 정의돼 있다: `type:*`(10)
   `comp:*`(25) `priority:p0~p4`(5) `severity:critical~informational`(5)
   `risk:critical~low`(4). 새 저장소에 처음 적용하려면

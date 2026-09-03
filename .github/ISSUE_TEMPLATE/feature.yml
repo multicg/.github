@@ -1,0 +1,139 @@
+name: Feature
+description: "새 기능 — 충족되지 않은 필요·기회"
+title: "[Feature] primary-component: "
+labels: ["type:feature"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        제목 형식: `[Feature] primary-component: 검증 가능한 결과`
+
+        각 필드 안내의 **반려기준**에 걸리면 반려된다. 라벨은 계정 공용
+        정책 저장소(`multicg/.github`) `labels.yml` 정의를 그대로 쓴다 —
+        `type:feature` 라벨이 이 폼에서 자동으로 붙는다.
+        유형이 아직 정해지지 않은 초안만 General Work 폼을 쓴다.
+  - type: input
+    id: primary_component
+    attributes:
+      label: "Primary Component"
+      description: "comp:* 라벨 중 하나를 적는다(예: agent, api, ci, core, docs, security, skill 등 — 25종)"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: "해결하려는 문제"
+      description: "구현 방식과 독립적으로 충족되지 않은 필요·기회 — 영향 받는 사용자/시스템/워크플로, 현재 gap, 왜 중요한가. 반려기준: \"개선이 필요하다\" / 구현안을 문제 정의인 것처럼 쓴 것."
+    validations:
+      required: true
+  - type: textarea
+    id: expected_outcome
+    attributes:
+      label: "기대 결과"
+      description: "기능이 존재한 뒤 관찰 가능한 최종 상태와 그것을 관찰·사용할 주체. 완료 조건(어떻게 검증하나)과 구별되게. 반려기준: \"기능을 추가한다\"로 결과 전체를 대신한 서술."
+    validations:
+      required: true
+  - type: textarea
+    id: included_scope
+    attributes:
+      label: "포함 범위"
+      description: "이 이슈가 납품을 약속하는 구체적 경계 — 항목 나열, 비어 있으면 안 됨. 반려기준: \"전체 범위\" / 문제를 다시 쓴 것."
+      value: |
+        -
+    validations:
+      required: true
+  - type: textarea
+    id: excluded_scope
+    attributes:
+      label: "제외 범위"
+      description: "범위 확산 방지 — 명시적 제외 1개 이상, 또는 \"없음\" + 이유. 포함 범위와 동일하면 안 됨. 반려기준: 이유 없는 공란 / \"없음\"만 단독."
+      value: |
+        -
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "완료 조건"
+      description: "독립적으로 검증 가능한 완료 조건. 조건마다 관찰 가능한 결과 + 검증 방법. 가능하면 부정/경계 조건 1개 이상. 작성자가 아닌 사람이 판정 가능해야 한다. 반려기준: \"구현한다\"·\"완료한다\"·\"문서를 작성한다\" / 관찰 결과 없이 \"테스트를 통과한다\"로 끝나는 것."
+    validations:
+      required: true
+  - type: textarea
+    id: scenarios
+    attributes:
+      label: "사용 시나리오"
+      description: "선택. 주요 사용자·시스템 시나리오."
+  - type: textarea
+    id: impact
+    attributes:
+      label: "영향과 제약"
+      description: "선택. 호환성, 데이터, API, 보안, 배포 영향."
+  - type: textarea
+    id: verification
+    attributes:
+      label: "검증 방법"
+      description: "선택. 완료 조건을 무엇으로 확인하는가 — 실행할 명령·확인할 출력·기대 결과."
+  - type: textarea
+    id: related
+    attributes:
+      label: "관련 항목"
+      description: "선택. Parent / Depends-on / Blocks / Related 이슈·PR (#번호 또는 owner/repo#번호)."
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority"
+      options:
+        - p0
+        - p1
+        - p2
+        - p3
+        - p4
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "Severity"
+      options:
+        - critical
+        - major
+        - moderate
+        - minor
+        - informational
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: "Risk level"
+      options:
+        - critical
+        - high
+        - medium
+        - low
+    validations:
+      required: true
+  - type: textarea
+    id: issue_contract
+    attributes:
+      label: "Issue Contract (JSON)"
+      description: "위에서 고른 값(Primary Component/Priority/Severity/Risk)과 완료 조건을 그대로 옮겨 채운다. 사람이 읽는 위 내용과 어긋나면 안 된다 — 자동 검증 CI는 없으므로 작성자가 직접 일치시킨다."
+      render: "json"
+      value: |
+        {
+          "schema_version": "1.0.0",
+          "title": "[Feature] primary-component: 검증 가능한 결과",
+          "classification": {
+            "type": "feature",
+            "primary_component": "",
+            "components": []
+          },
+          "planning": {
+            "priority": "",
+            "severity": "",
+            "risk_level": ""
+          },
+          "acceptance_criteria": []
+        }
+    validations:
+      required: true

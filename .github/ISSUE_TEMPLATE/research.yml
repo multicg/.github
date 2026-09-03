@@ -1,0 +1,152 @@
+name: Research
+description: "조사·검증 — 확정 답이 있는 질문"
+title: "[Research] primary-component: "
+labels: ["type:research"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        제목 형식: `[Research] primary-component: 검증 가능한 결과`
+
+        각 필드 안내의 **반려기준**에 걸리면 반려된다. 라벨은 계정 공용
+        정책 저장소(`multicg/.github`) `labels.yml` 정의를 그대로 쓴다 —
+        `type:research` 라벨이 이 폼에서 자동으로 붙는다.
+        유형이 아직 정해지지 않은 초안만 General Work 폼을 쓴다.
+  - type: input
+    id: primary_component
+    attributes:
+      label: "Primary Component"
+      description: "comp:* 라벨 중 하나를 적는다(예: agent, api, ci, core, docs, security, skill 등 — 25종)"
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: "목적"
+      description: "작업이 끝난 뒤 무엇이 달라져야 하는가 — 검증 가능한 결과. 반려기준: \"효율화\"·\"고도화\"·\"개선\" 같은 추상명사만 있는 것 / AI 문장을 그대로 붙인 것."
+    validations:
+      required: true
+  - type: textarea
+    id: background
+    attributes:
+      label: "배경"
+      description: "선택. 현재 상태, 문제, 작업이 필요한 이유. 실측·로그가 있으면 인용한다."
+  - type: textarea
+    id: question
+    attributes:
+      label: "연구 질문"
+      description: "이 조사가 해소하는 정확한 질문 — 확정 답이 있는 의문문, 두 독자가 같은 답을 찾을 만큼 구체적으로. 반려기준: \"영향을 조사한다\" / \"확인한다\"."
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: "방법"
+      description: "질문에 답하는 방법 — 구체적 소스·데이터셋·코드 경로·절차 + 조사하지 않을 경계. 반려기준: \"관련 문서를 확인한다\" / 대상 미지정 \"문서를 검토한다\"."
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: "산출 증거"
+      description: "조사가 내놓을 구체적 증거 산출물 종류. 반려기준: \"결과를 정리한다\"."
+    validations:
+      required: true
+  - type: textarea
+    id: decision_output
+    attributes:
+      label: "의사결정 산출물"
+      description: "조사가 낳는 구체적 결정 또는 산출물의 형식과 소비자 — 방법(활동)이 아니라 결과. 반려기준: 결정 기준 없이 \"개선안을 작성한다\"로 끝나는 것."
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: "범위"
+      description: "포함/제외 경계를 나눠 적는다. 제외가 없으면 `없음` + 이유. 반려기준: 이유 없는 공란."
+      value: |
+        ### 포함
+
+        -
+
+        ### 제외
+
+        -
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: "완료 조건"
+      description: "Pass/Fail로 판정 가능한 조건. 반려기준: \"잘 되게\"·\"안정적으로\" 같은 주관 표현만 있는 것."
+    validations:
+      required: true
+  - type: textarea
+    id: subtasks
+    attributes:
+      label: "하위 Task"
+      description: "선택. 브랜치·PR 단위 하위 작업. 규모와 무관하게 분해를 권장한다."
+  - type: textarea
+    id: related
+    attributes:
+      label: "관련 항목"
+      description: "선택. Parent / Depends-on / Blocks / Related 이슈·PR (#번호 또는 owner/repo#번호)."
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority"
+      options:
+        - p0
+        - p1
+        - p2
+        - p3
+        - p4
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "Severity"
+      options:
+        - critical
+        - major
+        - moderate
+        - minor
+        - informational
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: "Risk level"
+      options:
+        - critical
+        - high
+        - medium
+        - low
+    validations:
+      required: true
+  - type: textarea
+    id: issue_contract
+    attributes:
+      label: "Issue Contract (JSON)"
+      description: "위에서 고른 값(Primary Component/Priority/Severity/Risk)과 완료 조건을 그대로 옮겨 채운다. 사람이 읽는 위 내용과 어긋나면 안 된다 — 자동 검증 CI는 없으므로 작성자가 직접 일치시킨다."
+      render: "json"
+      value: |
+        {
+          "schema_version": "1.0.0",
+          "title": "[Research] primary-component: 검증 가능한 결과",
+          "classification": {
+            "type": "research",
+            "primary_component": "",
+            "components": []
+          },
+          "planning": {
+            "priority": "",
+            "severity": "",
+            "risk_level": ""
+          },
+          "acceptance_criteria": []
+        }
+    validations:
+      required: true
