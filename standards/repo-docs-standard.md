@@ -2,8 +2,8 @@
 
 | 항목 | 값 |
 |---|---|
-| 버전 | 1.0.0 |
-| 상태 | active — §7 승격 게이트 3조건(스킬 배포, replica 1호 이관, 과도기 조항 삭제) 충족 확인 후 2026-09-07 승격 |
+| 버전 | 1.1.0 |
+| 상태 | active — §7 승격 게이트 3조건(스킬 배포, replica 1호 이관, 과도기 조항 삭제) 충족 확인 후 2026-09-07 승격. 같은 날 diagram 유형(§3.1·§4.1) 추가 + 정책 저장소 범위 외 명시(§4.4)로 1.1.0 개정 |
 | 정본 위치 | `multicg/.github` `standards/repo-docs-standard.md` (이 파일) |
 | 상류 참조 | `doonemo/workspace` `guides/docs-classification-guide.md` (workspace@fc3189f, 2026-09-04 반영) |
 | 제정 근거 | [multicg/.github#7](https://github.com/multicg/.github/issues/7) (조사·결정 기록) |
@@ -54,6 +54,7 @@ repo-type 오버레이 — 저장소 유형별 물리 배치: implementation형 
 | research | 조사 — 시장·기술·실사 기록, 외부 자료 정리 | 시장조사, 실사 기록 |
 | guide | 방법·절차(how-to) — 따라 하면 결과가 나오는 문서 | 온보딩, 도구 사용법 |
 | template | 재사용 양식 | 리서치 노트 템플릿 |
+| diagram | 시각 자료 — 구조·흐름을 그림으로 정리한 산출물, 보통 `.mmd`/`.md`/`.html` 3파일 세트 | 플로우 다이어그램, 아키텍처 다이어그램 |
 
 ### 3.2 분류 결정 트리
 
@@ -61,13 +62,15 @@ repo-type 오버레이 — 저장소 유형별 물리 배치: implementation형 
 유형이다.
 
 1. 재사용할 양식인가? → template
-2. 어떤 선택의 배경과 이유를 남기는 기록인가? → decision
-3. 반복 재사용되는 how-to(누가 언제 읽어도 같은 절차)인가? → guide
-4. 이 저장소·프로젝트 한정 1회성 계획·정책·체크리스트인가? → operation
-5. 무엇을 만들지(요구·기능·스키마)를 정의하는가? → requirement
-6. 시스템·저장소의 구조와 경계를 설명하는가? → architecture
-7. 조사·실사·외부 자료 정리인가? → research
-8. 어디에도 해당하지 않으면 → implementation형은 저장소 docs 루트,
+2. 구조·흐름을 그림으로 정리한 산출물(보통 `.mmd`/`.md`/`.html`
+   3파일 세트)인가? → diagram
+3. 어떤 선택의 배경과 이유를 남기는 기록인가? → decision
+4. 반복 재사용되는 how-to(누가 언제 읽어도 같은 절차)인가? → guide
+5. 이 저장소·프로젝트 한정 1회성 계획·정책·체크리스트인가? → operation
+6. 무엇을 만들지(요구·기능·스키마)를 정의하는가? → requirement
+7. 시스템·저장소의 구조와 경계를 설명하는가? → architecture
+8. 조사·실사·외부 자료 정리인가? → research
+9. 어디에도 해당하지 않으면 → implementation형은 저장소 docs 루트,
    vault형은 research/에 두고, 반복되면 이 표준에 유형 추가를
    제안하는 이슈를 정본 저장소(multicg/.github)에 연다.
 
@@ -143,12 +146,16 @@ docs/
   operations/    operation 유형 — 정책, 체크리스트, 작업 계획, 운영 절차
   decisions/     decision 유형 — 게이트 판정, ADR, deferred.md
   research/      research 유형 — 조사·실사 기록, sources/
+  diagrams/      diagram 유형 — 플로우·아키텍처 다이어그램(.mmd/.md/.html 세트)
 ```
 
 - template 유형 문서가 생기면 `docs/templates/`를 그때 만든다(§3.5
   빈 디렉터리 금지 — planning/에 섞지 않는다, template은 독립
   유형이다).
 - guide 유형이 생기면 `docs/guides/`를 그때 만든다(같은 이유).
+- diagram 유형 문서가 생기면 `docs/diagrams/`를 그때 만든다(같은
+  이유) — 다이어그램 생성 도구(예: flow-diagram류 스킬)의 기본
+  출력 경로와 일치시킨다.
 - 기획 볼트에서 이관(graduation)받은 문서 세트는 유형별로 분류해
   배치한다 — 이관 매핑은 §4.2 참고.
 
@@ -198,6 +205,14 @@ vault형 필수 규칙:
 납품 문서 저장소(예: ssis-docs류)는 발주처 번호 체계 등 자체 구조를
 따르며 이 표준의 오버레이를 적용하지 않는다. base 표준 중 파일명
 규칙(§3.5)도 발주처 관례가 우선한다.
+
+### 4.4 범위 외 — 정책 저장소 (이 저장소 포함)
+
+`multicg/.github`처럼 정책·템플릿·라벨 taxonomy를 배포하는 저장소
+자체는 이 표준의 오버레이 적용 대상이 아니다 — implementation(코드가
+본체)·vault(기획 문서가 본체)·docs-delivery(납품 문서) 어느 정의에도
+맞지 않고, `repo-type` 선언 자체가 불필요하다. `sensus:repo-docs-standard`
+스킬의 check 대상 목록에도 포함하지 않는다.
 
 ## 5. 전파 규칙
 
