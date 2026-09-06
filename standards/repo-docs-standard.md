@@ -2,8 +2,8 @@
 
 | 항목 | 값 |
 |---|---|
-| 버전 | 1.0.0-draft |
-| 상태 | draft — `sensus:repo-docs-standard` 스킬 미구현 + implementation형 1호(replica-community-intelligence) 이관 완료가 `active` 승격 게이트. 승격 조건은 §7 참고 |
+| 버전 | 1.0.0 |
+| 상태 | active — §7 승격 게이트 3조건(스킬 배포, replica 1호 이관, 과도기 조항 삭제) 충족 확인 후 2026-09-07 승격 |
 | 정본 위치 | `multicg/.github` `standards/repo-docs-standard.md` (이 파일) |
 | 상류 참조 | `doonemo/workspace` `guides/docs-classification-guide.md` (workspace@fc3189f, 2026-09-04 반영) |
 | 제정 근거 | [multicg/.github#7](https://github.com/multicg/.github/issues/7) (조사·결정 기록) |
@@ -219,10 +219,7 @@ vault형 필수 규칙:
   리뷰 시 사람이 확인한다.
 - **생성 시점 복사 금지** — 새 저장소를 템플릿 복사로 만들지 않는다.
   빈 저장소 생성 후 스킬 1회 실행이 유일한 부트스트랩 경로다. 배포는
-  항상 정본 sha 마커가 박힌 추적 가능한 PR이어야 한다.
-  **과도기 조항** — `sensus:repo-docs-standard` 스킬이 아직 없는
-  동안은 수동 복사 + AGENTS.md에 sha 마커 수기 기록으로 대신한다.
-  이 조항은 스킬 배포 완료 시 삭제한다(§7 게이트 참고).
+  항상 정본 sha 마커가 박힌 추적 가능한 PR/MR이어야 한다.
 - 배포된 복사본을 저장소에서 직접 수정하지 않는다 — 고치고 싶으면 이
   저장소에 이슈를 연다. 수정하면 다음 check가 드리프트로 보고한다.
 - GitLab 개인 프로젝트에도 같은 스킬로 배포한다(플랫폼별 경로 차이는
@@ -236,17 +233,24 @@ vault형 필수 규칙:
 4. 개정 후 스킬 check를 돌려 배포 대상 저장소들의 드리프트를 확인하고
    재배포 PR을 만든다.
 
-## 7. draft → active 승격 게이트
+## 7. draft → active 승격 (완료, 2026-09-07)
 
-이 표준은 `1.0.0-draft` 상태로 시작한다. 아래 조건이 모두 충족되면
-버전을 `1.0.0`으로 올리고 상태를 `active`로 승격한다 — 승격 자체도
-§6 개정 절차(PR)를 따른다.
+이 표준은 `1.0.0-draft`로 시작해 아래 3조건을 모두 충족한 뒤
+`1.0.0`/`active`로 승격했다.
 
-1. `sensus:repo-docs-standard` 스킬이 배포되어 check/write를 실제로
-   수행할 수 있다.
+1. `sensus:repo-docs-standard` 스킬 배포 완료 — 정본 저장소
+   `multicg/sensus-hub`(sensus 플러그인 v0.26.1). 배포 직후 실제 3개
+   저장소(아래 2번의 replica, 그리고 compass-vault·novel)에 check를
+   실행해 거짓 드리프트 2건(빈 버킷 미생성을 위반으로 오판, `sources/`
+   원본 파일명 오탐)을 실측으로 찾아 수정까지 마쳤다 — draft 상태의
+   실전 검증이라는 이 게이트의 취지가 실제로 작동한 사례다.
 2. implementation형 1호(replica-community-intelligence,
-   [replica#20](https://github.com/multicg/replica-community-intelligence/issues/20))의
-   이관이 완료되어, §3.2 분류 결정 트리를 실제 문서 19건에 적용한
-   결과가 나온다 — 이 과정에서 트리가 어긋나면 승격 전에 이 문서를
-   먼저 고친다.
-3. §5의 과도기 조항(수동 복사 절차)을 삭제한다.
+   [replica#20](https://github.com/multicg/replica-community-intelligence/issues/20))
+   이관 완료 — §3.2 분류 결정 트리를 실제 문서 19건에 적용, PR #22·#25로
+   반영.
+3. §5의 과도기 조항(수동 복사 절차)을 삭제했다(위 §5 참고).
+
+승격 시점에 vault형 2호(compass-vault, PR #78)와 implementation형
+2호(novel, PR #89)도 이미 적용 완료 상태였다 — §3.2 트리가 서로 다른
+두 오버레이·서로 다른 저장소 구조에서 추가 개정 없이 그대로
+작동함을 함께 확인했다.
