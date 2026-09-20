@@ -155,3 +155,7 @@
 - name: "risk:low"
   color: "108548"
   description: "위험도"
+
+- name: "debugging-log"
+  color: "0e8a16"
+  description: "원인규명+수정 끝난 디버깅 경험 기록 — type:*와 독립 관리, Debugging Log 템플릿과 짝(novel#265)"
