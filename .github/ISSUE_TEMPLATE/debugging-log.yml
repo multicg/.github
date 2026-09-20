@@ -1,0 +1,53 @@
+name: Debugging Log
+description: 원인규명+수정이 끝난 디버깅 경험을 기록한다 — 나중에 비슷한 증상을 만났을 때 검색해서 참고하기 위함.
+title: "[Debug] "
+labels: ["debugging-log"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **이미 원인규명+수정이 끝난 사례만 기록한다** — 아직 조사 중인
+        버그는 일반 `[Bug]` 이슈(General Work 템플릿)를 쓴다. 사소한
+        오탈자·자명한 실수는 기록하지 않는다 — 다음에 비슷한 증상을
+        만났을 때 "아 이거였지" 하고 시간을 아낄 만한 사례만 남긴다.
+
+        나중에 계정 전체 저장소를 가로질러 검색하려면:
+        `gh search issues --owner multicg --label debugging-log "키워드"`
+  - type: input
+    id: repo_component
+    attributes:
+      label: 저장소/컴포넌트
+      description: "이 문제가 발생한 저장소·컴포넌트(예: novel/scripts/verify)"
+    validations:
+      required: true
+  - type: textarea
+    id: symptom
+    attributes:
+      label: 증상
+      description: 무엇이 잘못 보였는가 — 에러 메시지, 관찰된 동작. 나중에 검색어가 될 만한 구체적 문구를 그대로 포함한다.
+    validations:
+      required: true
+  - type: textarea
+    id: root_cause
+    attributes:
+      label: 원인
+      description: 실제 근본 원인. 표면적 트리거가 아니라 "왜 그런 증상이 나왔는가"까지 적는다.
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: 수정
+      description: 무엇을 어떻게 고쳤는가. 커밋/PR 링크를 포함한다.
+    validations:
+      required: true
+  - type: textarea
+    id: false_leads
+    attributes:
+      label: 막다른 길 (선택)
+      description: 조사하다 "이건 아니었다"고 확인한 것들 — 다음 사람이 같은 삽질을 반복하지 않도록.
+  - type: textarea
+    id: prevention_signal
+    attributes:
+      label: 재발 신호 (선택)
+      description: 다음에 비슷한 증상을 봤을 때 이 이슈를 먼저 떠올릴 수 있게 하는 특징적 신호(에러 문구, 환경 조건, 트리거 패턴 등).
