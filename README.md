@@ -20,6 +20,7 @@ GitLab·조직 전용 요소(taxonomy 자동검증 CI 등)는 뺐다 — 상세�
 | markdownlint CI | `.github/workflows/markdownlint-reusable.yml` | 재사용 워크플로 — 각 저장소가 `uses:`로 호출 |
 | 브랜치·이슈 정책 문서 | `CONTRIBUTING.md` | 참고 문서(자동 상속됨) |
 | 문서 구조 표준 | [standards/repo-docs-standard.md](./standards/repo-docs-standard.md) (v1.0.0 active) | 상세는 그 문서 §5 전파 규칙 참고. 제정 기록: [#7](https://github.com/multicg/.github/issues/7) |
+| Issue Contract taxonomy(workflow_state 11/evidence_state 6/quality_attributes 7, 2026-09-22 추가) | [taxonomy/contract-fields.json](./taxonomy/contract-fields.json) | 수동 조회 — `labels.yml`과 달리 각 저장소에 복사·적용하지 않는다. `issue-contract` 스킬(`multicg/sensus-hub`)이 매 호출 시 `gh api repos/multicg/.github/contents/taxonomy/contract-fields.json`로 이 파일을 실시간 조회한다(freeze 금지). 제정 기록: [#14](https://github.com/multicg/.github/issues/14) |
 
 > 상세 조사 근거: compass-vault
 > `research/tech/github-account-level-issue-template-inheritance.md`
