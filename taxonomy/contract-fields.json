@@ -1,0 +1,80 @@
+{
+  "$note": "issue-contract 스킬(multicg/sensus-hub) 및 향후 CI가 매 호출 시 실시간 조회하는 taxonomy 정본. 로컬 사본을 freeze하지 않는다 — labels.yml(GitHub 라벨 49종)과는 별도 관리(이 3축은 라벨이 아니라 Issue Contract JSON 필드).",
+  "source_issue": "multicg/.github#14",
+  "schema_version": "1.0.0",
+  "workflow_state": {
+    "description": "이슈/PR의 작업 진행 단계. Contract JSON의 workflow_state 필드 값.",
+    "values": [
+      "draft",
+      "triage",
+      "ready",
+      "planned",
+      "in-progress",
+      "blocked",
+      "review",
+      "verification",
+      "approval",
+      "done",
+      "cancelled"
+    ],
+    "initial": "draft",
+    "terminal": ["done", "cancelled"],
+    "transitions": {
+      "draft": ["triage", "cancelled"],
+      "triage": ["ready", "blocked", "cancelled"],
+      "ready": ["planned", "blocked", "cancelled"],
+      "planned": ["in-progress", "blocked", "cancelled"],
+      "in-progress": ["review", "blocked", "cancelled"],
+      "blocked": ["triage", "ready", "planned", "in-progress", "review", "verification", "approval", "cancelled"],
+      "review": ["verification", "in-progress", "blocked", "cancelled"],
+      "verification": ["approval", "in-progress", "blocked", "cancelled"],
+      "approval": ["done", "in-progress", "blocked", "cancelled"],
+      "done": [],
+      "cancelled": []
+    }
+  },
+  "evidence_state": {
+    "description": "Evidence lifecycle 단계. Contract JSON의 evidence_state 필드 값.",
+    "values": [
+      "required",
+      "generated",
+      "validated",
+      "approved",
+      "rejected",
+      "waived"
+    ],
+    "initial": "required",
+    "terminal": ["approved", "waived"],
+    "transitions": {
+      "required": ["generated", "waived"],
+      "generated": ["validated", "rejected"],
+      "validated": ["approved", "rejected"],
+      "approved": [],
+      "rejected": ["generated", "waived"],
+      "waived": []
+    }
+  },
+  "quality_attributes": {
+    "description": "이슈/PR이 관련된 품질 속성. 다중 선택 가능(라벨화하지 않음).",
+    "multi_select": true,
+    "values": [
+      "performance",
+      "reliability",
+      "security",
+      "maintainability",
+      "accessibility",
+      "internationalization",
+      "testability"
+    ]
+  },
+  "human_decision_boundary": {
+    "description": "되돌리기 어려운 동작(이슈 종결/PR 머지/workflow_state를 done으로 전이) 전 요구되는 Contract JSON 필드. false 또는 필드 부재 시 fail-closed(제안만 하고 실행하지 않음).",
+    "field": "human_approved",
+    "type": "boolean",
+    "required_for_actions": [
+      "issue-close",
+      "pr-merge",
+      "workflow_state:done"
+    ]
+  }
+}
